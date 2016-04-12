@@ -8,7 +8,6 @@ struct Login { //each structure allows 10 total login ids
 };
 
 int main() {
-    //added comment
     string s[10];
     s[0] = "1";
     s[1] = "2";
