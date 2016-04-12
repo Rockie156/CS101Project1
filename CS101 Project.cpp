@@ -1,6 +1,5 @@
 /**
 CS101 Extra Credit Project
-
 TODO:
      1. Fix loadLoginInfo() -- currently does not load classes data field 
      2. Menu()
@@ -9,7 +8,7 @@ TODO:
      3. manageUsers()
               remove users
      4. manageClasses()
-              remove classes
+              sort classes
               rename classes
 
 */
@@ -44,6 +43,7 @@ string login();
 bool changeUsernamePassword(string);
 void manageClasses(string);
 void addClass(string);
+void removeClass(string);
 
 int main() {
     Login list = loadLoginInfo();
@@ -132,6 +132,7 @@ void manageClasses(string user) {
                  addClass(user);
                  break;
             case 2:
+                 removeClass(user);
                  break;
             case 3:
                  break;
@@ -156,6 +157,49 @@ void addClass(string user) {
         list.classes[i][k] = tempClassName;
         saveLoginInfo(list);
         cout << "Class successfully added. " << endl;
+     }
+}
+
+void removeClass(string user) {
+     Login list = loadLoginInfo();
+     int userIndex;
+     for (userIndex=0;list.userName[userIndex]!=user;userIndex++);
+     if (list.classes[userIndex][0] == "") {
+        cout << "Error! You do not manage any classes. Returning to previous menu... " << endl;
+     } else {
+         cout << "What class would you like to remove?" << endl;
+         for (int i=0;list.classes[userIndex][i]!="";i++) {
+             cout << "\t" << i+1 << ". " << list.classes[userIndex][i] << endl;
+         }
+         int input;
+         int numClasses = sizeof(list.classes[userIndex]) / sizeof(string);
+         cin >> input;
+         input--;
+         // user input check to make sure is in bounds
+         if (input >= 0 && input < numClasses) {
+                   if (list.classes[userIndex][input]!="") {
+                      cout << "Are you sure you want to delete " << list.classes[userIndex][input] << "? (Y/N)";
+                      char input2;
+                      cin >> input2;
+                      if (input2 == 'y' || input2 == 'Y') {
+                         // Iterates through array setting position N to N-1 from N to end of string
+                         for (int k=input; k<numClasses-1;k++) {
+                             list.classes[userIndex][k] = list.classes[userIndex][k+1];
+                         }
+                         // sets final element to empty character
+                         list.classes[userIndex][numClasses-1] = "";
+                         saveLoginInfo(list);
+                         cout << "Successfully removed a class" << endl;
+                      } else {
+                           cout << "Returning to previous menu... " << endl;
+                      }
+                   } else {
+                          cout << "Invalid input, returning to previous menu... " << endl;
+                   }
+                   
+         }  else {
+                 cout << "Invalid input, returning to previous menu... " << endl;
+         }
      }
 }
         

@@ -8,9 +8,9 @@ struct Login { //each structure allows 10 total login ids
 };
 
 int main() {
-    string s[10];
-    s[0] = "1";
-    s[1] = "2";
-    cout << sizeof(s)/sizeof(string);
+    string s[10][5];
+    s[0][0] = "1";
+    s[1][0] = "2";
+    cout << sizeof(s[0])/sizeof(string);
     system("PAUSE");
 }
