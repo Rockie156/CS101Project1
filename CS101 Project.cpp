@@ -6,8 +6,10 @@ TODO:
               manage students in a class
               manage grades of students
      3. manageUsers()
+              add users (check for already exists)
               remove users
      4. manageClasses()
+              add classes (check for already exists)
               sort classes (auto?)
               rename classes
 
@@ -20,6 +22,7 @@ TODO:
 using namespace std;
 
 struct Students {
+       int ID;
        int examGrades [10];
        int labGrads [10];
        int finalExamGrade;
@@ -155,6 +158,8 @@ void addClass(string user) {
         list.classes[i][k] = tempClassName;
         saveLoginInfo(list);
         cout << "Class successfully added. " << endl;
+     } else {
+        cout << "Non-yes input. Exiting to previous menu... " << endl;
      }
 }
 
