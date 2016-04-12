@@ -21,18 +21,20 @@ TODO:
 #include <fstream>
 using namespace std;
 
-struct Students {
+#define ArraySize 10
+
+struct Student {
        int ID;
-       int examGrades [10];
-       int labGrads [10];
        int finalExamGrade;
        int numAbsence;
-};
+       int examGrades [ArraySize];
+       int labGrades [ArraySize];
+} default_Student = {-1, -1, 0, {-1}, {-1}};
 
 struct Login { //each structure allows 10 total login ids
-       string userName [10];
-       string password [10]; 
-       string classes [10][10]; //each teacher allowed max 10 classes
+       string userName [ArraySize];
+       string password [ArraySize]; 
+       string classes [ArraySize][ArraySize]; //each teacher allowed max 10 classes
 };
 
 Login loadLoginInfo();
@@ -52,8 +54,8 @@ int main() {
     cout << "Loading database of login credentials..." << endl;
     list.userName[0] = "Admin";
     list.password[0] = "Admin";
-    cout << list.classes[1][0];
-    saveLoginInfo(list); //classes lost here
+    //cout << list.classes[1][0];
+    saveLoginInfo(list);
     cout << "Success!\n" << endl;
     menu(login(), list);
     system("PAUSE");
@@ -275,10 +277,11 @@ void saveLoginInfo(Login list) {
      ofstream myfile ("CSProject.txt");
      if (myfile.is_open()){
         int i=0;
-          while (list.userName[i]!="") {
+        int size = sizeof(list.userName[i]) / sizeof(string);
+          while (list.userName[i]!="" && i<size) {
                 myfile << list.userName[i] <<" "<< list. password[i] << " ";
                 int j=0;
-                while(list.classes[i][j]!="") {
+                while(list.classes[i][j]!="" && j < size) {
                     myfile << list.classes[i][j] << ",";
                     j++;
                 }
@@ -290,6 +293,36 @@ void saveLoginInfo(Login list) {
      else cout << "Unable to open file";
 }
 
+// Creates a text file title of class, contains only students
+void saveClass(string className, Student students[]) {
+     int size = sizeof(students) / sizeof(Student);
+
+     string fileName = className + ".txt";
+     ofstream myfile (fileName.c_str());
+     if (myfile.is_open()) {
+        // note if ID is -1, student is uninitialized.
+        for (int i=0; i< size && students[i].ID!=-1; i++) {
+            /**
+                   int ID;
+       int examGrades [10];
+       int labGrads [10];
+       int finalExamGrade;
+       int numAbsence;
+        {-1, {-1}, {-1}, -1, 0};
+       = 
+       */
+            myfile << students[i].ID << " ";
+            cout << students[i].finalExamGrade << " ";
+            cout << students[i].numAbsence << " ";
+            for (int j = 0; j<ArraySize; j++)
+                myfile << students[i].examGrades[j] << ",";
+            cout << " ";
+            for (int j = 0; j<ArraySize; j++)
+                myfile << students[i].labGrades[j] << ",";
+            
+         }
+     }
+}
 //loads list of usernames and passwords into array of Login. Currently maxxed at 10.
 Login loadLoginInfo() {
       Login list;
