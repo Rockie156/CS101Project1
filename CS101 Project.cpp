@@ -8,7 +8,7 @@ TODO:
      3. manageUsers()
               remove users
      4. manageClasses()
-              sort classes
+              sort classes (auto?)
               rename classes
 
 */
@@ -17,7 +17,6 @@ TODO:
 
 #include <iostream>
 #include <fstream>
-#include <string>
 using namespace std;
 
 struct Students {
@@ -153,7 +152,6 @@ void addClass(string user) {
         int i,k;
         for (i=0; user!=list.userName[i]; i++);
         for (k=0; list.classes[i][k]!="";k++);
-        cout << "adding " << tempClassName << " to position " << i << ", " << k << endl;
         list.classes[i][k] = tempClassName;
         saveLoginInfo(list);
         cout << "Class successfully added. " << endl;
